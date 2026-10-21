@@ -1,0 +1,27 @@
+﻿name: HW3 Tests
+
+on:
+  push:
+    branches: [tuan03, main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install test dependencies
+        run: python -m pip install -r tuan03/requirements-dev.txt
+
+      - name: Run tests and check coverage
+        run: python -m pytest tuan03 -q --cov=tuan03.cart --cov-report=term-missing --cov-fail-under=80
